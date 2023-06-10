@@ -1,18 +1,52 @@
-# Lagrangian-Polynomial-Interpolation
-This has a collection of 3 files in python which help solve problems with interpolation of functions and boundary of there error. This consists of three seperate python files which call on each other to exacute the functions from the likes of poly_interpolation , interpolation _errors and poly_interpolation_2d call on the function lagrange_poly. The function deriv_lagrange_poly is being called by the functions: approximate_derivative and derivative_errors. These algorithsm are used to building as reliable polynomial function which has a small error bound with the actual function f. 
+# Lagrangian Polynomial Interpolation
 
-The functions are: 
+This repository provides three Python files that work together to solve problems related to function interpolation and estimating error bounds.
 
-* The function poly_interpolation(a,b,p,n,x,f,produce_fig) evaluates the pth order polynomial interpolation of a function f at a set points x_j for j in range of 0 to n-1. The nodal interpolation points are uniformly spaced over the interval [a,b] including the endpoints. Calling the function lagrange_poly with the tolerance of 1.0e-10. If produce_fig is True then the function plots on the same axes the function f evaluated at the point x_j and the interpolant p_p(x) evaluated at the same points.
+## File 1: lagrange_polynomials.py
 
-* The function interpolation_errors(a,b,n,P,f) computes the error max{|p_p_j(x) - f(x)|} in the domain of [a,b] for a range of polynomial degrees P. The output error_matrix will contain the errors when a uniform set of interpolation nodes is used, using the function lagrange_poly. It will also plot the errors against P using the plt.semilogy and return this figure in fig.
+This file contains the following functions:
 
-*  The function poly_interpolation_2d(p,a,b,c,d,X,Y,n,m,f,produce_fig) the function evaluates the pth order polynomial p_p(x,y) of the function at a set of grid points stored in the *m x n* arrays X and Y. X nd Y are assumed to be created using the numpy.meshgrid function. Hence *ij*th component of interpolant should be uniformly spaced over the interval [*a,b*] and [*c,d*] respectively, incuding the endpoints. Calling the function lagrange_poly with the tolerance of 1.0e-10. If produce_fig is True then the function should produce a contour plot of the interpolant p_p(x), which is returned in fig.
+### Function: lagrange_poly(p, xhat, n, x, tol)
 
-* The function deriv_lagrange_poly(p,xhat,n,x,tol) given a set og p+1 distinct nodal points xhat_j from the range of 0 to p and a set of n evalyated points x_j from range 0 to n-1. This will return a matrix with dimension *(p+1) , n* stored in deriv_lagrange_matrix where the *ij*th entry of the matrix is derivitive of L_i(x). The function also performs a check to see if the nodal points xhat_i are distinct. If distinct then error_flag is 0, otherwise error_flag is 1. The floating point numbers x and y should be considered equal if |x-y|<tol.
+The `lagrange_poly` function is used by functions in File 1. It evaluates the Lagrange polynomial using a given set of interpolation nodes and a tolerance.
 
-* The function approximate_derivative(x,p,h,k,f) evaluates the derivative of the *p*th order polynomial interpolant of a function *f* at a point *x*. This value is an approximation to *f'(x)*. The interpolant points should be equally spaced so that xhat_j such that xhat_j = xhat_0 +*jh*, *j = 0, ... ,p* for *h>0* and should be positioned so that xhat_k = *x* where k in range of 0 to p and x coincides with on of the nodal points. This function calls deriv_lagrange_poly with tol = 1.0e-10. 
+### Function: deriv_lagrange_poly(p, xhat, n, x, tol)
 
-* The function derivative_errors(x,P,m,H,n,f,fdiff) for a set of m even polynomial degrees P = {p_i} for i in range 0 to m-1 and a set ofn widths H = {h_j} for j in ranege of 0 to n-1, it will return an *m x n* matrix E, where *E_ij = |f'(x) - p'_(p_i,h_j)(x)|*. The polynomial interpolant of order *p_i*, p_(p_i,h_j)(x), with the interval width h_j such that *x = xhat_((p_i)/2)*. This function would call deriviative_approximation. Then further the function will plot {E_ij} against {h_j} for j the range of 0 to n-1 for each *p_i*. A single set of axes with a logarithmic scale on both axes should be used.
+The `deriv_lagrange_poly` function is used by the `approximate_derivative` function in File 1. It calculates the derivative of the Lagrange polynomial for a set of nodal points and evaluated points and checks for the distinctness of nodal points.
 
-In conclusion I have built a set of six functions which help with the building a polynomial interpolant function from a set of points given to us to find a close approximation to the actual function even for multivarient function. Then further going on to find the approximation to the derivitive of functions at a given point. 
+These functions work together to build reliable polynomial functions with small error bounds compared to the actual functions.
+
+## File 2: compute_errors.py
+
+This file contains the following functions:
+
+### Function: interpolation_errors(a, b, n, P, f)
+
+The `interpolation_errors` function calls the `poly_interpolation` function from File 1. It computes the maximum error, max{|p_p_j(x) - f(x)|}, in the domain [a, b] for a range of polynomial degrees P. The errors are calculated using a uniform set of interpolation nodes.
+
+### Function: derivative_errors(x, P, m, H, n, f, fdiff)
+
+The `derivative_errors` function calls the `approximate_derivative` function from File 1. It computes the error in approximating the derivative of a function at a given point for a range of polynomial degrees P and interval widths H.
+
+
+Please feel free to adjust and customize the formatting as per your needs.
+
+## File 3: approximations.py
+
+This file contains the following functions:
+
+### Function: poly_interpolation(a, b, p, n, x, f, produce_fig)
+
+The `poly_interpolation` function calls the `lagrange_poly` function from File 3. It evaluates the pth order polynomial interpolation of a function f at a set of points x_j, where j ranges from 0 to n-1. The nodal interpolation points are uniformly spaced over the interval [a, b], including the endpoints. If `produce_fig` is True, the function plots the function f evaluated at the points x_j and the interpolant p_p(x) on the same axes.
+
+### Function: poly_interpolation_2d(p, a, b, c, d, X, Y, n, m, f, produce_fig)
+
+The `poly_interpolation_2d` function calls the `lagrange_poly` function from File 3. It evaluates the pth order polynomial p_p(x, y) of a function at a set of grid points stored in the m x n arrays X and Y. The components of the interpolant are uniformly spaced over the intervals [a, b] and [c, d] for x and y, respectively, including the endpoints. If `produce_fig` is True, the function produces a contour plot of the interpolant p_p(x).
+
+### Function: approximate_derivative(x, p, h, k, f)
+
+The `approximate_derivative` function calls the `deriv_lagrange_poly` function from File 3. It evaluates the derivative of the pth order polynomial interpolant of a function f at a point x. The interpolant points are equally spaced, and x coincides with one of the nodal points.
+
+Feel free to adjust and customize the formatting as per your needs.
+
+
