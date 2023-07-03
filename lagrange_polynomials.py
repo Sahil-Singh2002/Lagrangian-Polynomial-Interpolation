@@ -5,8 +5,6 @@
 #################################################################
 ## Imports
 ## - No further imports should be necessary
-## - If you wish to import a non-standard modules, ask Ed if that 
-## - is acceptable
 #################################################################
 import numpy as np
 #################################################################
@@ -50,7 +48,7 @@ def lagrange_poly(p,xhat,n,x,tol):
     """
 
     #Check xhat is of the correct length
-    #Note, this is good practice, but not required for the question
+    #Note, this is good practice
     if xhat.shape != (p+1,):
         return None, None #Premature exit
 
@@ -99,12 +97,7 @@ def deriv_lagrange_poly(p,xhat,n,x,tol):
 
 #################################################################
 ## Test Code ##
-## You are highly encouraged to write your own tests as well,
-## but these should be written in a separate file
 #################################################################
-
-
-################
 #%% Q1 Test
 ################
 
